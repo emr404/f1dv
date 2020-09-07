@@ -1,0 +1,43 @@
+.NavBarContainer{
+
+.NavBar {
+
+    display: flex;
+    flex-direction: column;
+    width: 10vw;
+    height: 100vh;
+    text-decoration: none;
+    position: fixed;
+    overflow: hidden;
+    background-color: #000000;
+
+    .NavLink {
+        text-decoration: none;
+
+        &:hover {
+            background-color: white;
+        }
+    }
+
+    li {
+        height: 10vh;
+        font-size: 20px;
+        background-color: #000000;
+        color: red;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-bottom: 2px;
+        border-bottom: 1px solid white;
+
+        &:hover {
+            background-color: white;
+            color: red;
+            transition: 1s ease;
+        }
+
+    }
+
+}
+
+}

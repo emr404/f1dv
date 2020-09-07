@@ -10,7 +10,6 @@ const App = () => {
   return (
     <div>
       <Router>
-
           <Nav />
           <Switch>
             <Route path='/' exact component={Home} />
@@ -19,7 +18,6 @@ const App = () => {
             <Route path='/Standings' component={Standings} />
             <Route path='/Schedule' component={Schedule} />
           </Switch>
-          
       </Router>
     </div>
   )
