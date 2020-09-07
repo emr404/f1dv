@@ -1,0 +1,70 @@
+.ScheduleContainer {
+    width: 80vw;
+    overflow: auto;
+    margin: auto;
+    margin-left: 15vw;
+    
+    h1{
+        color: red;
+        margin-top: 0.3em;
+        padding: 1em 0 0 0;
+        text-transform: uppercase;
+    }
+
+    .ScheduleHeading{
+        margin-top: 2vh;
+        position: sticky;
+        top: 0;
+
+        ul {
+            position: sticky;
+            top: 0;
+
+            li {
+                width: 80vw;
+                margin: auto;
+                display: flex;
+                justify-content: space-between;
+                margin-top: 2vh;
+                color: black;
+                border-bottom: 3px solid black;
+                padding: 2em 0em;
+                font-size: 0.8em;
+
+
+                h3 {
+                    background: none;
+                    text-align: left;
+                    min-width: 10vw;
+
+
+                }
+            }
+        }
+    }
+
+    .ScheduleListContainer{
+        margin-top: 2vh;
+
+        li {
+            width: 80vw;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2vh;
+            color: black;
+            border-bottom: 1px solid red;
+            padding: 1em 0em;
+            font-size: 0.7em;
+
+
+
+            h3 {
+                background: none;
+                text-align: left;
+                min-width: 10vw;
+                font-weight: 500;
+            }
+        }
+    }
+}

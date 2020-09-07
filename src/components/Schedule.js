@@ -1,6 +1,6 @@
 import React from 'react'
 import {useState,useEffect} from 'react'
-
+import "../scss/style.scss";
 const Schedule = () => {
     const [schedule, setSchedule] = useState([])
     const [season, setSeason] = useState([])
@@ -22,20 +22,28 @@ const Schedule = () => {
             })
         }, [])
     return (
-        <div className='ScoreboardContainer'>
+        <div className='ScheduleContainer'>
             <h1>Schedule</h1>
-            <h2 className='seasonTitle'>Season: {season}</h2>
-
+            {/* <h2 className='seasonTitle'>Season: {season}</h2> */}
+            <div className='ScheduleHeading'>
+                <ul>
+                    <li>
+                        <h3 style={{minWidth:'2vw'}}> Round </h3>
+                        <h3 style={{minWidth:'2vw'}}> Date/Time</h3>
+                        <h3 style={{minWidth:'12vw'}}>  Event </h3>
+                        <h3> Location </h3> 
+                    </li>
+                </ul>
+            </div>
             {   
                 schedule.slice(9,18).map(schedule=>(
-                    <div className='scheduleListContainer' key={schedule.date}>
+                    <div className='ScheduleListContainer' key={schedule.date}>
                     <li>
-                        <div className='scheduleList'>
-                            <span className='date'>{schedule.date} <br/> <br/> {schedule.time} </span>
-                            <span className='race'>{schedule.race}</span>
-                            <span className='ScheduleDetail'>{schedule.round}</span>
-                            <span className='ScheduleDetail'>{schedule.city},{schedule.country}</span>
-                        </div>
+                            <h3 style={{minWidth:'2vw'}}>{schedule.round}</h3>
+                            <h3 style={{minWidth:'2vw'}}>{schedule.date} <br/> <br/> {schedule.time}</h3>
+                            <h3 style={{minWidth:'12vw'}}>{schedule.race}</h3>
+                            <h3>{schedule.city},{schedule.country}</h3>
+                        
                     </li>
                     </div>
                 ))}

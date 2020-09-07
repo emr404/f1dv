@@ -103,7 +103,7 @@ const handleSubmit = e => {
 
 
             {title.map(race=>(
-                <h2 className='RaceName'>{race.race} <br/> <span className='Round'>Round: {race.round} </span> </h2> 
+                <h2 className='RaceName' key={race.round}>{race.race} <br/> <span className='Round'>Round: {race.round} </span> </h2> 
             ))}
 
             <Line data={chartData} />
