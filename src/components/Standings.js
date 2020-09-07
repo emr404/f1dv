@@ -2,7 +2,7 @@ import React from 'react'
 import { useState, useEffect } from "react";
 import { Bar, Line, Radar } from "react-chartjs-2";
 import StandingList from "./StandingsComponent";
-
+import  "../scss/style.scss";
 
 const Standings = () => {
         const [chartData, setChartData] = useState([]);
@@ -77,15 +77,17 @@ const Standings = () => {
         <div className='StandingsContainer' >
                 <h1>Standings</h1>
                 <div className='Season'>
-                <h2>Season: {year}</h2>
+                <h2>Season: <span style={{fontWeight:'bolder'}}>{year}</span></h2>
+                
+                <label htmlFor="SelectYear">Select Year:  
                 <select value={year} onChange={handleChange} >
-                    <option value="">Select Year</option>
+                    <option value="">2020</option>
                         {seasonList.map(season=>(<option key={season} value={season}>{season}</option>))}
                 </select>
+                </label>
             </div>
             <Line  data={chartData}/>
-            <div>
-
+            
             <div className='DriversListHeading'>
                 <ul>
                     <li>
@@ -100,7 +102,7 @@ const Standings = () => {
             {raceEvent.map(race => 
                 <StandingList key={race.position} {...race}/>
             )}
-            </div>
+            
 
         </div>
     )

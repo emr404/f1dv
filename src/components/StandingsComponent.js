@@ -1,5 +1,5 @@
 import React from 'react'
-
+import "../scss/style.scss";
 const StandingsComponent = ({position,points,name,fname,car,number}) => {
     return (
         <div>
