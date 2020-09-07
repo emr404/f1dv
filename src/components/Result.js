@@ -24,7 +24,7 @@ const Result = () => {
             
             const raceData = data.MRData.RaceTable.Races;
             raceData.map(race => {
-                console.log(race);
+                
                     const {raceName,date,season,round,Results,Circuit: {url,circuitName,Location: {locality,country}}} = race;
                     /* console.log(raceName, date, season, 'Round ' + round); */
                     raceTitleArray.push({race:raceName,date: date,season:season,round: round})
@@ -84,27 +84,31 @@ const handleSubmit = e => {
     
     
     return (
-        <div>
+        <div className='ResultContainer'>
             <h1>Result</h1>
+            <div className='ResultSearch'>
+            
+            <label htmlFor="Season"> Select Season: 
             <select value={year} onChange={handleChange} >
-                <option value="">Select Season</option>
+                <option value="">2020</option>
                 {seasonList.map(season=>(<option key={season} value={season}>{season}</option>))}
             </select>
+            </label>
             
-            <label htmlFor="Round"> Select Round</label>
-            <input type="number" min='1' onChange={handleClick} max='21' style={{border:'none', borderBottom:'1px solid red', width:'15vw', outline:'none'}} placeholder='Enter Round' />
-            
-            <button onClick={handleSubmit}>Click</button>
-
+            <label htmlFor="Round"> Select Round: 
+                <input type="number" min='1' onChange={handleClick} max='21'  placeholder='Enter Round' />
+            </label>
+            <button onClick={handleSubmit}>Confirm</button>
+            </div>
 
 
             {title.map(race=>(
-                <h2>{race.race} <br/> Round:{race.round}</h2> 
+                <h2 className='RaceName'>{race.race} <br/> <span className='Round'>Round: {race.round} </span> </h2> 
             ))}
 
             <Line data={chartData} />
 
-            <div>
+            <div className='DriversListHeading'>
                         <ul>
                             <li>
                                 <h3 style={{minWidth:'3vw'}} >Pos.</h3>

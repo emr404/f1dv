@@ -1,0 +1,45 @@
+.ResultContainer{
+    width: 80vw;
+    overflow: auto;
+    margin: auto;
+    margin-left: 15vw;
+
+    h1 {
+        color: red;
+        margin-top: 0.3em;
+        padding: 1em 0;
+        text-transform: uppercase;
+    }
+    .ResultSearch{
+        display: flex;
+        justify-content: space-evenly;
+        justify-items: center;
+        align-items: center;
+
+        select{
+            width: 7vw;
+            font-size: 1em;
+        }
+        input{
+            border: none;
+            border-bottom: 1px solid red;
+            width: 5vw;
+            font-size: 1em;
+            outline: none;
+        }
+        button{
+            border: none;
+            background-color: red;
+            color: white;
+            padding: 0.5em 1em;
+            font-size: 1em;
+            cursor: pointer;
+        }
+    }
+
+    
+    .RaceName{
+        color: red;
+        padding-top: 1em;
+    }
+}
