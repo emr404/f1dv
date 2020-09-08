@@ -17,10 +17,10 @@ const Drivers = () => {
         fetch(`https://ergast.com/api/f1/${year}/drivers/${state}/results.json`)
         .then(response=> response.json())
         .then(data=>{
-            const newData = data.MRData.RaceTable.Races;
-            newData.map(a=>{
-                console.log(a);
-                const {season,raceName,Results:[{position,points,Constructor:{name},Driver:{familyName,givenName,driverId}}]} = a
+            const raceData = data.MRData.RaceTable.Races;
+            raceData.map(races => {
+                console.log(races);
+                const {season,raceName,Results:[{position,points,Constructor:{name},Driver:{familyName,givenName,driverId}}]} = races
                 
                 
                 activeDriverArray.push({race: raceName,points:points, position: position,season: season,car: name,fname: givenName,lname: familyName})
@@ -32,17 +32,17 @@ const Drivers = () => {
 
 
         useEffect(() => {
-        const ok = [];
+        const seasonArray = [];
         fetch("https://ergast.com/api/f1/seasons.json?limit=100&offset=0")
             .then((response) => response.json())
             .then((data) => {
-                const realInfo = data.MRData.SeasonTable.Seasons;
-                realInfo.map((seasons) => {
+                const Seasons = data.MRData.SeasonTable.Seasons;
+                Seasons.map((seasons) => {
                     const {season} = seasons;
-                    ok.push(season)
+                    seasonArray.push(season)
                 });
             });
-        setSeasons(ok);
+        setSeasons(seasonArray);
     }, [])
     useEffect(() => {
         fetch(`https://ergast.com/api/f1/drivers.json?limit=848&offset=0`)
@@ -124,17 +124,15 @@ const Drivers = () => {
             <button onClick={handleClick}>Confirm</button>
             </div>
 
-            <div className='DriverDetails'>
+            
             {activeDriver.slice(0,1).map(driver=>(
-                <div>
+                <div div className = 'DriverDetails' >
                     <h3>Driver: {driver.fname} {driver.lname}  </h3>
                     <h3>Constructor: {driver.car}</h3>
                     <h3>Season:{driver.season}</h3>
                 </div>
+                
             ))}
-
-
-            </div>
             <Bar className='Chart' data={chartData}/>
 
             <div className='DriversListHeading'>

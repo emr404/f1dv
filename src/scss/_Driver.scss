@@ -1,0 +1,24 @@
+.DriverDetails{
+    margin: 3vh 0 5vh 1vw ;
+    &> div{
+        display: flex;
+        flex-direction: column;
+
+        justify-content: space-between;
+        height: 12vh;        
+    }
+}
+
+@media (max-width:768){
+    .DriverDetails {
+        margin: 3vh 0 5vh 10vw;
+
+        &>div{
+            h3{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            }
+        }
+    }
+}
