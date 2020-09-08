@@ -124,6 +124,17 @@ const Drivers = () => {
             <button onClick={handleClick}>Confirm</button>
             </div>
 
+            <div className='DriverDetails'>
+            {activeDriver.slice(0,1).map(driver=>(
+                <div>
+                    <h3>Driver: {driver.fname} {driver.lname}  </h3>
+                    <h3>Constructor: {driver.car}</h3>
+                    <h3>Season:{driver.season}</h3>
+                </div>
+            ))}
+
+
+            </div>
             <Bar className='Chart' data={chartData}/>
 
             <div className='DriversListHeading'>
