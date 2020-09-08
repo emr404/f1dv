@@ -2,6 +2,7 @@ import React from 'react'
 import { useState,useEffect } from "react";
 import ReactAutocomplete  from "react-autocomplete";
 import { Bar } from "react-chartjs-2";
+import DriverComponent from "./DriverComponent";
 import Autocomplete from "./Autocomplete";
 const Drivers = () => {
     const [state, setState] = useState();
@@ -20,6 +21,8 @@ const Drivers = () => {
             newData.map(a=>{
                 console.log(a);
                 const {season,raceName,Results:[{position,points,Constructor:{name},Driver:{familyName,givenName,driverId}}]} = a
+                
+                
                 activeDriverArray.push({race: raceName,points:points, position: position,season: season,car: name,fname: givenName,lname: familyName})
             })  
             setActiveDriver(activeDriverArray)
@@ -42,7 +45,7 @@ const Drivers = () => {
         setSeasons(ok);
     }, [])
     useEffect(() => {
-        fetch(`http://ergast.com/api/f1/drivers.json?limit=848&offset=0`)
+        fetch(`https://ergast.com/api/f1/drivers.json?limit=848&offset=0`)
         .then(response=>response.json())
         .then(data=>{
             let driverArray = [];
@@ -79,7 +82,11 @@ const Drivers = () => {
     })
 }
     return (
-        <div>
+        <div className='DriverContainer'>
+            <h1>Drivers</h1>
+
+            <div className='DriverSearch'>
+            <label htmlFor="Driver Name">Last Name:
             <ReactAutocomplete  
             items={drivers}
             shouldItemRender={(item, value) =>item.label.toLowerCase().indexOf(value) > -1}
@@ -105,15 +112,34 @@ const Drivers = () => {
                     textTransform:'uppercase'
                 }
             }/>
+            </label>
 
-            <select value={year} onChange={handleChange} >
-                <option value="">Select Year</option>
-                {seasons.map(season=> <option value={season} key={season}>{season}</option>)}
-            </select>
+            <label htmlFor="Year"> Select Year
+                <select value={year} onChange={handleChange} >
+                    <option value="">Year</option>
+                    {seasons.map(season=> <option value={season} key={season}>{season}</option>)}
+                </select>
+            </label>
 
             <button onClick={handleClick}>Confirm</button>
+            </div>
 
             <Bar className='Chart' data={chartData}/>
+
+            <div className='DriversListHeading'>
+                <ul>
+                    <li>
+                        <h3>Position</h3>
+                        <h3>Race</h3>
+                        <h3>Points</h3>
+                    </li>
+                </ul>
+            </div>
+
+            {activeDriver.map(driver=>(
+                <DriverComponent key ={driver.season} {...driver} />
+            ))}
+
         </div>
     )
 }

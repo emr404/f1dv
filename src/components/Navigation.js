@@ -24,7 +24,7 @@ const Navigation = () => {
                 <ul className='NavBar'>
 
                 <Link className='NavLink'  to='/'> 
-                        <li>Home</li>
+                        <li>Results</li>
                 </Link>
                 
                 <Link className='NavLink'  to='/Standings'> 
@@ -35,9 +35,7 @@ const Navigation = () => {
                         <li>Schedule</li>
                 </Link>
 
-                <Link className='NavLink'  to='/Result'> 
-                        <li>Results</li>
-                </Link>
+                
                 
                 <Link className='NavLink'  to='/Drivers'> 
                         <li>Drivers</li>

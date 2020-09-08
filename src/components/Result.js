@@ -115,7 +115,7 @@ const handleSubmit = e => {
                                 <h3>Driver</h3>
                                 <h3>Constructor</h3>
                                 <h3 style={{minWidth:'3vw'}}>No.</h3>
-                                <h3>Points</h3>
+                                <h3>Pts</h3>
                             </li>
                         </ul>
             </div>

@@ -1,6 +1,6 @@
 import React from 'react'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
-import Home from "./components/Home";
+/* import Home from "./components/Home"; */
 import Nav from "./components/Navigation";
 import Drivers from "./components/Drivers";
 import Result from "./components/Result";
@@ -12,9 +12,10 @@ const App = () => {
       <Router>
           <Nav />
           <Switch>
-            <Route path='/' exact component={Home} />
+          <Route path='/' exact component={Result} />
+            {/* <Route path='/' exact component={Home} /> */}
             <Route path='/Drivers' component={Drivers} />
-            <Route path='/Result' component={Result} />
+            
             <Route path='/Standings' component={Standings} />
             <Route path='/Schedule' component={Schedule} />
           </Switch>
