@@ -1,14 +1,17 @@
 .NavBarContainer{
-
+    margin: 0;
+    background-color: black;
+    margin-top: 0vh;
 .NavBar {
 
+    padding-top: 15vh;
     display: flex;
     flex-direction: column;
     width: 10vw;
     height: 100vh;
     text-decoration: none;
     position: fixed;
-    overflow: hidden;
+    overflow:hidden;
     background-color: #000000;
 
     .NavLink {
@@ -41,3 +44,135 @@
 }
 
 }
+.SmallImg {
+    display: none;
+
+}
+.LargeImg {
+    width: 100vw;
+    height: 5vh;
+    background-color: black;
+    padding: 1em;
+    border-bottom: 1px solid black;
+    position: fixed;
+    top: 0;
+    z-index: 5;
+}
+@media (max-width:768px) {
+/*     body {
+        overflow-x: hidden;
+
+    }
+
+    */
+* {
+    overflow-x: hidden;
+} 
+
+.NavBarContainer {
+
+    margin: 0;
+    background-color: black;
+    margin-top: 0vh;
+}
+    .LargeImg {
+        display: none;
+    }
+
+    .NavHeader {
+        z-index: 10;
+        position: fixed;
+        top: 0;
+        display: flex;
+        justify-content: center;
+        background-color: black;
+        align-items: center;
+        min-height: 10vh;
+        width: 100vw;
+
+        .SmallImg {
+            display: block;
+            position: sticky;
+            top: 0;
+            z-index: 3;
+            background-color: black;
+            text-align: center;
+            /* padding: 3vh 0; */
+            width: 100vw;
+            height: 5vh;
+        }
+
+        
+}
+
+.Burger {
+    display: block;
+    padding-left: 5vw;
+    z-index: 10;
+    background: black;
+
+    div {
+        margin: 5px;
+        height: 3px;
+        width: 25px;
+        background-color: red;
+    }
+}
+.NavBar {
+    z-index: 5;
+    overflow-x: hidden;
+    background-color: black;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 70vh;
+    flex-direction: column;
+    position: absolute;
+    top: 10vh;
+    right: 0;
+    border-top: 1px solid red;
+    width: 100% !important;
+    transform: translateX(-100%);
+    transition: 0.4s ease;
+
+    li {
+        padding: 0 1%;
+        font-size: 1.5em;
+        list-style: none;
+
+        a {
+            font-size: .8em;
+            text-decoration: none;
+            color: red;
+        }
+    }
+}
+
+
+    .Active {
+        transform: translateX(0%);
+
+    }
+
+    .Toggle {
+        .Line1 {
+            transform: rotate(-45deg) translate(-5px, 6px);
+            transition: 0.5s ease;
+
+        }
+
+        .Line2 {
+            opacity: 0;
+        }
+
+        .Line3 {
+            transform: rotate(45deg) translate(-5px, -6px);
+            transition: 0.5s ease;
+        }
+    }
+
+
+}
+
+
+

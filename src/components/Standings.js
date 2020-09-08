@@ -38,7 +38,7 @@ const Standings = () => {
     
     useEffect(() => {
             const seasonArray = [];
-            fetch("http://ergast.com/api/f1/seasons.json?limit=100&offset=0")
+            fetch("https://ergast.com/api/f1/seasons.json?limit=100&offset=0")
             .then((response) => response.json())
             .then((data) => {
                 const realInfo = data.MRData.SeasonTable.Seasons;

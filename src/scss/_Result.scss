@@ -3,6 +3,7 @@
     overflow: auto;
     margin: auto;
     margin-left: 15vw;
+    padding-top: 10vh;
 
     h1 {
         color: red;
@@ -17,14 +18,16 @@
         align-items: center;
 
         select{
-            width: 7vw;
+            width: 10vw;
             font-size: 1em;
+            outline: none;
         }
         input{
             border: none;
             border-bottom: 1px solid red;
-            width: 5vw;
+            width: 15vw;
             font-size: 1em;
+            outline: none;
             outline: none;
         }
         button{
@@ -34,6 +37,7 @@
             padding: 0.5em 1em;
             font-size: 1em;
             cursor: pointer;
+            outline: none;
         }
     }
 
@@ -41,5 +45,49 @@
     .RaceName{
         color: red;
         padding-top: 1em;
+    }
+}
+
+@media (max-width:768px) {
+    .ResultContainer {
+        width: 90vw;
+        margin: auto;
+        padding-top: 10vh;
+
+        .ResultSearch {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            /* justify-items: center; */
+            /* align-items: center; */
+            height: 20vh;
+
+            select {
+                width: 15vw;
+                font-size: 1em;
+                margin-left: 3vw;
+                outline: none;
+            }
+
+            input {
+                border: none;
+                border-bottom: 1px solid red;
+                width: 15vw;
+                font-size: 1em;
+                outline: none;
+                margin-left: 3vw;
+                outline: none;
+            }
+
+            button {
+                border: none;
+                background-color: red;
+                color: white;
+                padding: 0.5em 1em;
+                font-size: 1em;
+                cursor: pointer;
+                outline: none;
+            }
+        }
     }
 }

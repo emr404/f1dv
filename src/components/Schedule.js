@@ -41,7 +41,7 @@ const Schedule = () => {
                     <li>
                             <h3 style={{minWidth:'2vw'}}>{schedule.round}</h3>
                             <h3 style={{minWidth:'2vw'}}>{schedule.date} <br/> <br/> {schedule.time}</h3>
-                            <h3 style={{minWidth:'12vw'}}>{schedule.race}</h3>
+                            <h3 style={{minWidth:'10vw'}}>{schedule.race}</h3>
                             <h3>{schedule.city},{schedule.country}</h3>
                         
                     </li>

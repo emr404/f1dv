@@ -8,6 +8,7 @@ body {
     overflow: auto;
     margin: auto;
     margin-left: 15vw;
+    padding-top: 10vh;
 
 
     h1 {
@@ -45,6 +46,10 @@ body {
 
 
 }
+
+
+
+
 .DriversListHeading {
     margin-top: 6vh;
     position: sticky;
@@ -103,4 +108,10 @@ body {
 }
 
 
-
+@media (max-width:768px){
+    .StandingsContainer {
+        width: 90vw;
+        margin: auto;
+        padding-top: 10vh;
+    }
+}
