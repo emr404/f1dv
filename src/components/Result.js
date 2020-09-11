@@ -101,7 +101,18 @@ const handleSubmit = e => {
             <button onClick={handleSubmit}>Confirm</button>
             </div>
 
-
+            {title == ''? (
+                <div style={{marginTop:'20vh'}} className="Loader">
+                <span className='LoaderSpan'>|</span>
+                <span className='LoaderSpan' style={{ "--delay": "0.1s" }}>|</span>
+                <span className='LoaderSpan' style={{ "--delay": "0.3s" }}>|</span>
+                <span className='LoaderSpan' style={{ "--delay": "0.4s" }}>|</span>
+                <span className='LoaderSpan' style={{ "--delay": "0.5s" }}>|</span>
+                </div>
+                
+            ):
+            
+                <div>
             {title.map(race=>(
                 <h2 className='RaceName' key={race.round}>{race.race} <br/> <span className='Round'>Round: {race.round} </span> </h2> 
             ))}
@@ -124,6 +135,9 @@ const handleSubmit = e => {
             {results.map(result=>(
                         <ResultComponent key={result.position} {...result}/>
             ))}
+
+            </div>
+            }
 
         </div>
     )

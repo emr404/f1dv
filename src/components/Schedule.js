@@ -35,8 +35,19 @@ const Schedule = () => {
                     </li>
                 </ul>
             </div>
-            {   
-                schedule.slice(9,18).map(schedule=>(
+                {schedule == ''? (
+                <div style={{marginTop:'20vh'}} className="Loader">
+                <span className='LoaderSpan'>|</span>
+                <span className='LoaderSpan' style={{ "--delay": "0.1s" }}>|</span>
+                <span className='LoaderSpan' style={{ "--delay": "0.3s" }}>|</span>
+                <span className='LoaderSpan' style={{ "--delay": "0.4s" }}>|</span>
+                <span className='LoaderSpan' style={{ "--delay": "0.5s" }}>|</span>
+                </div>
+                
+            ):
+            <div>
+                
+                {schedule.slice(9,18).map(schedule=>(
                     <div className='ScheduleListContainer' key={schedule.date}>
                     <li>
                             <h3 style={{minWidth:'2vw'}}>{schedule.round}</h3>
@@ -47,6 +58,8 @@ const Schedule = () => {
                     </li>
                     </div>
                 ))}
+            </div>
+                }
         </div>
     )
 }

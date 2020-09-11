@@ -124,9 +124,19 @@ const Drivers = () => {
             <button onClick={handleClick}>Confirm</button>
             </div>
 
-            
+            {chartData == ''? (
+                <div style={{marginTop:'20vh'}} className="Loader">
+                <span className='LoaderSpan'>|</span>
+                <span className='LoaderSpan' style={{ "--delay": "0.1s" }}>|</span>
+                <span className='LoaderSpan' style={{ "--delay": "0.3s" }}>|</span>
+                <span className='LoaderSpan' style={{ "--delay": "0.4s" }}>|</span>
+                <span className='LoaderSpan' style={{ "--delay": "0.5s" }}>|</span>
+                </div>
+                
+            ):
+            <div>
             {activeDriver.slice(0,1).map(driver=>(
-                <div div className = 'DriverDetails' >
+                <div className = 'DriverDetails' >
                     <h3>Driver: {driver.fname} {driver.lname}  </h3>
                     <h3>Constructor: {driver.car}</h3>
                     <h3>Season:{driver.season}</h3>
@@ -148,7 +158,8 @@ const Drivers = () => {
             {activeDriver.map(driver=>(
                 <DriverComponent key ={driver.season} {...driver} />
             ))}
-
+            </div>
+            }
         </div>
     )
 }

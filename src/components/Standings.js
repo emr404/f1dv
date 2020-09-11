@@ -86,7 +86,20 @@ const Standings = () => {
                 </select>
                 </label>
             </div>
-            <Line  data={chartData}/>
+
+            {chartData == ''? (
+                <div style={{marginTop:'20vh'}} className="Loader">
+                <span className='LoaderSpan'>|</span>
+                <span className='LoaderSpan' style={{ "--delay": "0.1s" }}>|</span>
+                <span className='LoaderSpan' style={{ "--delay": "0.3s" }}>|</span>
+                <span className='LoaderSpan' style={{ "--delay": "0.4s" }}>|</span>
+                <span className='LoaderSpan' style={{ "--delay": "0.5s" }}>|</span>
+                </div>
+                
+            ):
+
+            <div>
+                <Line  data={chartData}/>
             
             <div className='DriversListHeading'>
                 <ul>
@@ -103,6 +116,9 @@ const Standings = () => {
                 <StandingList key={race.position} {...race}/>
             )}
             
+            </div>
+            }
+
 
         </div>
     )

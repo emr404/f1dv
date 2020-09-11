@@ -1,0 +1,30 @@
+.Loader {
+    display: flex;
+    /* height: 100vh; */
+    /* height: 50%; */
+    align-items: center;
+    justify-content: center;
+    font-size: 5vh;
+    /* margin-top: 5vh; */
+    overflow: hidden;
+
+}
+
+@keyframes arrows {
+
+    0%,
+    100% {
+        color: red;
+        transform: translateY(0);
+    }
+
+    50% {
+        color: black;
+        transform: translateY(20px);
+    }
+}
+
+.LoaderSpan {
+    --delay: 0s;
+    animation: arrows 1s var(--delay) infinite ease-in;
+}
