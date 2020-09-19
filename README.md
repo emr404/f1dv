@@ -7,6 +7,10 @@ F1DV is a web application that enables users dynamically get schedules, results 
 + SCSS
 + ChartJS
 
+## Deployment
+Check it out [Here](https://f1dv.netlify.app)
+
+
 
 # Getting Started
 If you would like to run this app on your local machine, you can follow the steps below:
