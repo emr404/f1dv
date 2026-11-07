@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import Nav from "./components/Navigation";
 import Drivers from "./components/Drivers";
 import Result from "./components/Result";
@@ -8,7 +8,7 @@ import Schedule from "./components/Schedule";
 export default function App() {
   return (
     <div>
-      <BrowserRouter>
+      <HashRouter>
         <Nav />
         <main id="main-content" className="main-content" tabIndex={-1}>
           <Routes>
@@ -18,7 +18,7 @@ export default function App() {
             <Route path="/Schedule" element={<Schedule />} />
           </Routes>
         </main>
-      </BrowserRouter>
+      </HashRouter>
     </div>
   );
 }

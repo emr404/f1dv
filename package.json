@@ -10,7 +10,9 @@
     "start": "vite --port 3000",
     "dev": "vite --port 3000",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:pages": "vite build --base=/f1dv/",
+    "preview:pages": "vite preview --base=/f1dv/"
   },
   "dependencies": {
     "chart.js": "^4.5.1",

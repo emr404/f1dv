@@ -12,7 +12,29 @@ F1DV is a web application that enables users dynamically get schedules, results 
 
 ## Deployment
 
-Check it out [Here](https://f1dv.netlify.app)
+GitHub Pages is configured for [emr404/f1dv](https://github.com/emr404/f1dv).
+
+1. In the repository, open **Settings → Pages** and set **Source** to **GitHub Actions**.
+2. Commit and push these changes to `master`.
+3. The **Deploy to GitHub Pages** workflow builds and publishes the site. It can
+   also be started manually from the **Actions** tab.
+
+Once deployed, the site will be at **https://emr404.github.io/f1dv/**.
+
+The workflow obtains the deployment base path from GitHub Pages configuration,
+so asset paths also work if Pages later uses a custom domain. Navigation uses
+hash routes such as `/f1dv/#/Drivers`, which support direct links and refreshes
+without server rewrite rules.
+
+To preview the GitHub Pages build locally:
+
+```sh
+npm run build:pages
+npm run preview:pages
+```
+
+Open http://localhost:4173/f1dv/. The `:pages` scripts target this repository's
+`/f1dv/` path; the normal development and build commands continue to use `/`.
 
 # Getting Started
 
@@ -36,8 +58,8 @@ npm run preview
 
 `npm run build` creates
 production files in `build/`. `npm run preview` serves that build locally at
-http://localhost:4173. Static hosting must serve `index.html` for client routes
-such as `/Drivers`, `/Standings`, and `/Schedule`.
+http://localhost:4173. Routes use URL fragments such as `/#/Drivers`, so any
+static host can serve them without special fallback configuration.
 
 ## Maintenance
 

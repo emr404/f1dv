@@ -13,12 +13,26 @@ export default function Navigation() {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <a className="skip-link" href="#main-content">
+      <a
+        className="skip-link"
+        href="#main-content"
+        onClick={(event) => {
+          event.preventDefault();
+          const main = document.getElementById("main-content");
+          main?.focus({ preventScroll: true });
+          main?.scrollIntoView({ block: "start" });
+        }}
+      >
         Skip to content
       </a>
       <aside className="sidebar">
         <Link to="/" className="brand" aria-label="F1DV home">
-          <img src="/helmet.svg" alt="Racing helmet" width="36" height="36" />
+          <img
+            src={`${import.meta.env.BASE_URL}helmet.svg`}
+            alt="Racing helmet"
+            width="36"
+            height="36"
+          />
           <span>F1DV</span>
         </Link>
         <button
