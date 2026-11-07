@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Line, pointsChart } from "../charts";
 import { useF1Data, useSeasons } from "../api";
 import Loader from "./Loader";
@@ -33,8 +33,16 @@ const Result = () => {
   const selectedRound = round === "last" ? (rounds.at(-1)?.round ?? "") : round;
   const roundsReady = Boolean(calendar && rounds.length);
   const [query, setQuery] = useState(null);
+  const [initialLoadPending, setInitialLoadPending] = useState(true);
+
+  useEffect(() => {
+    if (!initialLoadPending || !calendar) return;
+    setInitialLoadPending(false);
+    if (roundsReady && selectedRound) setQuery(`${year}/${selectedRound}`);
+  }, [initialLoadPending, calendar, roundsReady, selectedRound, year]);
   const applyQuery = (event) => {
     event.preventDefault();
+    setInitialLoadPending(false);
     if (roundsReady && selectedRound) setQuery(`${year}/${selectedRound}`);
   };
   const { data, error, isFetching } = useF1Data(
@@ -54,8 +62,12 @@ const Result = () => {
       surname: result.Driver.familyName,
     })),
   );
-  const handleClick = (event) => setRound(event.target.value);
+  const handleClick = (event) => {
+    setInitialLoadPending(false);
+    setRound(event.target.value);
+  };
   const handleChange = (event) => {
+    setInitialLoadPending(false);
     setYear(event.target.value || new Date().getFullYear());
     setRound("last");
   };
@@ -67,7 +79,10 @@ const Result = () => {
     results.map((driver) => driver.position),
   );
   return (
-    <div className="ResultContainer" aria-busy={isFetching}>
+    <div
+      className="ResultContainer"
+      aria-busy={isFetching || (initialLoadPending && !calendarError)}
+    >
       <PageHeader
         title="Race results"
         description="Race classifications and championship points."
@@ -124,6 +139,8 @@ const Result = () => {
         <p role="alert" className="error-message">
           {error || seasonsError || calendarError}
         </p>
+      ) : initialLoadPending ? (
+        <Loader />
       ) : !query ? (
         <EmptyState title="Choose a race">
           Select a season and round, then click GO to see the results.
