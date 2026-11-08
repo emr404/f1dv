@@ -22,10 +22,7 @@ const Schedule = () => {
     }));
   return (
     <div className="ScheduleContainer">
-      <PageHeader
-        title="Schedule"
-        description="Upcoming Grand Prix dates, circuits and race times."
-      />
+      <PageHeader title="Schedule" />
       {error ? (
         <p role="alert" className="error-message">
           {error}
@@ -36,7 +33,6 @@ const Schedule = () => {
         <>
           <div className="schedule-intro">
             <div>
-              <span className="eyebrow">RACE CALENDAR</span>
               <h2>
                 {data.RaceTable.season || new Date().getFullYear()} upcoming
                 races

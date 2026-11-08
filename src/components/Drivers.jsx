@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import SeasonPerformance from "./SeasonPerformance";
+import { DriverPerformanceRings } from "./RadialCharts";
 import { useF1Data } from "../api";
 import {
   PageHeader,
@@ -79,10 +80,7 @@ const Drivers = () => {
   };
   return (
     <div className="DriverContainer">
-      <PageHeader
-        title="Drivers"
-        description="Explore driver performance by season."
-      />
+      <PageHeader title="Drivers" />
       <form className="filter-bar DriverSearch" onSubmit={handleClick}>
         <div className="filter-intro">
           <Icon name="drivers" />
@@ -136,9 +134,8 @@ const Drivers = () => {
       ) : query && !data ? (
         <Loader />
       ) : !query ? (
-        <EmptyState title="Meet the person behind the points">
-          Search for a driver, choose a season and click GO to explore their
-          race by race performance.
+        <EmptyState title="Choose a driver">
+          Select a driver and season then click GO.
         </EmptyState>
       ) : (
         <>
@@ -149,17 +146,9 @@ const Drivers = () => {
               label="DRIVER PROFILE"
               context={driver.season}
               title={`${driver.fname} ${driver.lname}`}
-              subtitle={
-                <>
-                  {driver.car}
-                  {driver.nationality && (
-                    <>
-                      <span>•</span>
-                      {driver.nationality}
-                    </>
-                  )}
-                </>
-              }
+              subtitle={[driver.car, driver.nationality]
+                .filter(Boolean)
+                .join(", ")}
               tags={[
                 { icon: "flag", label: `Races: ${activeDriver.length}` },
                 { label: `Season: ${driver.season}` },
@@ -168,18 +157,13 @@ const Drivers = () => {
           ))}
           <div className="stats-strip">
             <Stat
-              label="SEASON POINTS"
+              label="RACE POINTS"
               value={activeDriver.reduce(
                 (sum, driver) => sum + Number(driver.points),
                 0,
               )}
-              detail="Across all Grands Prix"
             />
-            <Stat
-              label="RACES"
-              value={activeDriver.length}
-              detail="Race appearances"
-            />
+            <Stat label="RACES" value={activeDriver.length} />
             <Stat
               label="BEST FINISH"
               value={
@@ -187,17 +171,19 @@ const Drivers = () => {
                   ? `P${Math.min(...activeDriver.map((driver) => Number(driver.position)))}`
                   : "—"
               }
-              detail="Highest classification"
             />
           </div>
-          <SeasonPerformance
-            key={`${activeDriver[0]?.season}-${activeDriver[0]?.fname}-${activeDriver[0]?.lname}`}
-            races={activeDriver}
-          />
-          <Panel
-            title="Race history"
-            subtitle="Finishing positions and points by Grand Prix."
-          >
+          <div className="driver-charts">
+            <DriverPerformanceRings
+              key={`rings-${activeDriver[0]?.season}-${activeDriver[0]?.fname}-${activeDriver[0]?.lname}`}
+              races={activeDriver}
+            />
+            <SeasonPerformance
+              key={`${activeDriver[0]?.season}-${activeDriver[0]?.fname}-${activeDriver[0]?.lname}`}
+              races={activeDriver}
+            />
+          </div>
+          <Panel title="Race history">
             <div
               className="table-scroll"
               role="region"

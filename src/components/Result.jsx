@@ -85,10 +85,7 @@ const Result = () => {
       className="ResultContainer"
       aria-busy={isFetching || (initialLoadPending && !roundsError)}
     >
-      <PageHeader
-        title="Race results"
-        description="Race results and championship points."
-      />
+      <PageHeader title="Race results" />
       <form className="filter-bar ResultSearch" onSubmit={applyQuery}>
         <div className="filter-intro">
           <Icon name="results" />
@@ -119,7 +116,7 @@ const Result = () => {
             )}
             {rounds.map((race) => (
               <option key={race.round} value={race.round}>
-                Round {race.round} · {race.raceName}
+                Round {race.round}: {race.raceName}
               </option>
             ))}
           </select>
@@ -163,13 +160,12 @@ const Result = () => {
             context={race.season}
             title={race.raceName}
             titleClassName="RaceName"
-            subtitle={
-              <>
-                {race.Circuit?.circuitName}
-                <span>•</span>
-                {race.Circuit?.Location.country}
-              </>
-            }
+            subtitle={[
+              race.Circuit?.circuitName,
+              race.Circuit?.Location.country,
+            ]
+              .filter(Boolean)
+              .join(", ")}
             tags={[
               { icon: "flag", label: `Round: ${race.round}` },
               {
@@ -186,16 +182,8 @@ const Result = () => {
               value={winner ? `${winner.name} ${winner.surname}` : "—"}
               detail={winner?.car}
             />
-            <Stat
-              label="WINNING POINTS"
-              value={winner?.points}
-              detail="Championship points"
-            />
-            <Stat
-              label="ON THE GRID"
-              value={results.length}
-              detail="Drivers classified"
-            />
+            <Stat label="WINNING POINTS" value={winner?.points} />
+            <Stat label="ON THE GRID" value={results.length} />
             <Stat
               label="SEASON"
               value={race.season}
@@ -204,7 +192,6 @@ const Result = () => {
           </div>
           <Panel
             title="Points distribution"
-            subtitle="How the race translated into championship points"
             aside={
               <span className="chart-key">
                 <i /> Points
@@ -222,7 +209,6 @@ const Result = () => {
           </Panel>
           <Panel
             title="Race results"
-            subtitle="The complete finishing order"
             aside={
               <span className="count-badge">{results.length} DRIVERS</span>
             }

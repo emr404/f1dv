@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Line, pointsChart } from "../charts";
+import { StandingsPointsShare } from "./RadialCharts";
 import { useF1Data, useSeasons } from "../api";
 import Loader from "./Loader";
-import { PageHeader, Panel, Stat, Position, Icon } from "./Interface";
+import { PageHeader, Panel, Position, Icon } from "./Interface";
 
 const Standings = () => {
   const [year, setYear] = useState(() => new Date().getFullYear());
@@ -19,18 +19,11 @@ const Standings = () => {
         number: driver.Driver.permanentNumber,
       })),
   );
-  const chartData = pointsChart(
-    raceEvent.map((driver) => driver.name),
-    raceEvent.map((driver) => driver.points),
-  );
   const handleChange = (event) =>
     setYear(event.target.value || new Date().getFullYear());
   return (
     <div className="StandingsContainer">
-      <PageHeader
-        title="Standings"
-        description="Driver rankings across the season."
-      />
+      <PageHeader title="Standings" />
       <div className="filter-bar Season">
         <div className="filter-intro">
           <Icon name="standings" />
@@ -48,7 +41,6 @@ const Standings = () => {
             ))}
           </select>
         </label>
-        <span className="filter-note">DRIVERS’ WORLD CHAMPIONSHIP</span>
       </div>
       {error || seasonsError ? (
         <p role="alert" className="error-message">
@@ -90,27 +82,9 @@ const Standings = () => {
               </div>
             ))}
           </div>
-          <Panel
-            title="The championship in points"
-            subtitle={`Driver performance across the ${year} season`}
-            aside={
-              <span className="chart-key">
-                <i /> Points
-              </span>
-            }
-          >
-            <div className="chart-wrap">
-              <Line
-                role="img"
-                aria-label="Championship points by driver"
-                data={chartData}
-                options={{ maintainAspectRatio: false }}
-              />
-            </div>
-          </Panel>
+          <StandingsPointsShare key={year} drivers={raceEvent} />
           <Panel
             title="Driver standings"
-            subtitle="The full championship order"
             aside={
               <span className="count-badge">{raceEvent.length} DRIVERS</span>
             }

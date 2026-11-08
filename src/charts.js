@@ -1,5 +1,7 @@
 import {
   Chart,
+  ArcElement,
+  DoughnutController,
   BarController,
   LineController,
   CategoryScale,
@@ -12,6 +14,8 @@ import {
 } from "chart.js";
 
 Chart.register(
+  ArcElement,
+  DoughnutController,
   BarController,
   LineController,
   CategoryScale,
@@ -23,7 +27,7 @@ Chart.register(
   Tooltip,
 );
 Chart.defaults.font.family =
-  "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+  "'Audiowide', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
 Chart.defaults.font.size = 11;
 Chart.defaults.color = "#7b7b84";
 Chart.defaults.plugins.legend.display = false;
@@ -36,7 +40,7 @@ Chart.defaults.scale.ticks.padding = 10;
 Chart.defaults.scale.beginAtZero = true;
 Chart.defaults.elements.line.tension = 0.3;
 
-export { Line, Bar, Chart as MixedChart } from "react-chartjs-2";
+export { Line, Bar, Doughnut, Chart as MixedChart } from "react-chartjs-2";
 
 export function pointsChart(labels, points, positions) {
   const accents = positions?.map(

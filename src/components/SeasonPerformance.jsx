@@ -213,7 +213,7 @@ export default function SeasonPerformance({ races }) {
           display: metrics.finish || metrics.grid,
           title: {
             display: true,
-            text: "Position · P1 at top",
+            text: "Position",
             color: "#85858e",
             font: { size: 10 },
           },
@@ -256,7 +256,6 @@ export default function SeasonPerformance({ races }) {
   return (
     <Panel
       title="Season performance explorer"
-      subtitle="Points, starting positions and race finishes on one timeline."
       className="performance-panel"
       aside={<span className="count-badge">{timeline.length} RACES</span>}
     >
@@ -341,21 +340,6 @@ export default function SeasonPerformance({ races }) {
               />
             </div>
           </div>
-          <div className="performance-caption">
-            <span>
-              {[
-                metrics.points || metrics.cumulative
-                  ? "Points on the left"
-                  : null,
-                metrics.finish || metrics.grid
-                  ? "Positions on the right"
-                  : null,
-              ]
-                .filter(Boolean)
-                .join(" · ")}
-            </span>
-            <span>Hover or tap a race to inspect it</span>
-          </div>
           <div className="race-inspector">
             <div className="inspector-heading">
               <div>
@@ -393,7 +377,7 @@ export default function SeasonPerformance({ races }) {
                   >
                     {visibleRaces.map((race) => (
                       <option key={race.round} value={race.round}>
-                        Round {race.round} · {race.race}
+                        Round {race.round}: {race.race}
                       </option>
                     ))}
                   </select>
@@ -443,10 +427,6 @@ export default function SeasonPerformance({ races }) {
               </div>
             </dl>
           </div>
-          <p className="performance-note">
-            Cumulative totals include Grand Prix race points only. Sprint points
-            and championship adjustments are not included.
-          </p>
         </>
       )}
     </Panel>
