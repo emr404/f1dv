@@ -1,5 +1,7 @@
 import {
   Chart,
+  BarController,
+  LineController,
   CategoryScale,
   LinearScale,
   PointElement,
@@ -10,6 +12,8 @@ import {
 } from "chart.js";
 
 Chart.register(
+  BarController,
+  LineController,
   CategoryScale,
   LinearScale,
   PointElement,
@@ -32,7 +36,7 @@ Chart.defaults.scale.ticks.padding = 10;
 Chart.defaults.scale.beginAtZero = true;
 Chart.defaults.elements.line.tension = 0.3;
 
-export { Line, Bar } from "react-chartjs-2";
+export { Line, Bar, Chart as MixedChart } from "react-chartjs-2";
 
 export function pointsChart(labels, points, positions) {
   const accents = positions?.map(

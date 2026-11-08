@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Bar, pointsChart } from "../charts";
+import { useMemo, useState } from "react";
+import SeasonPerformance from "./SeasonPerformance";
 import { useF1Data } from "../api";
 import {
   PageHeader,
@@ -48,17 +48,25 @@ const Drivers = () => {
     setYear(new Date().getFullYear());
   };
   const { data, error } = useF1Data(query, { keepPreviousData: true });
-  const activeDriver = (data?.RaceTable.Races ?? []).flatMap((race) =>
-    race.Results.map((result) => ({
-      race: race.raceName,
-      points: result.points,
-      position: result.position,
-      season: race.season,
-      car: result.Constructor.name,
-      fname: result.Driver.givenName,
-      lname: result.Driver.familyName,
-      nationality: result.Driver.nationality,
-    })),
+  const activeDriver = useMemo(
+    () =>
+      (data?.RaceTable.Races ?? []).flatMap((race) =>
+        race.Results.map((result) => ({
+          race: race.raceName,
+          round: race.round,
+          date: race.date,
+          grid: result.grid,
+          status: result.status,
+          points: result.points,
+          position: result.position,
+          season: race.season,
+          car: result.Constructor.name,
+          fname: result.Driver.givenName,
+          lname: result.Driver.familyName,
+          nationality: result.Driver.nationality,
+        })),
+      ),
+    [data],
   );
   const handleChange = (event) =>
     setYear(event.target.value || new Date().getFullYear());
@@ -69,13 +77,6 @@ const Drivers = () => {
         `${selectedYear}/drivers/${encodeURIComponent(selectedDriver.id)}/results.json?limit=100`,
       );
   };
-  const chartData = pointsChart(
-    activeDriver.map((driver) => driver.race),
-    activeDriver.map((driver) => driver.points),
-    activeDriver.map((driver) => driver.position),
-  );
-  chartData.datasets[0].borderWidth = 0;
-  chartData.datasets[0].hoverBorderWidth = 0;
   return (
     <div className="DriverContainer">
       <PageHeader
@@ -189,24 +190,10 @@ const Drivers = () => {
               detail="Highest classification"
             />
           </div>
-          <Panel
-            title="A season in points"
-            subtitle="Race by race championship contribution"
-            aside={
-              <span className="chart-key">
-                <i /> Points
-              </span>
-            }
-          >
-            <div className="chart-wrap">
-              <Bar
-                role="img"
-                aria-label="Points scored in each race of the selected season"
-                data={chartData}
-                options={{ maintainAspectRatio: false }}
-              />
-            </div>
-          </Panel>
+          <SeasonPerformance
+            key={`${activeDriver[0]?.season}-${activeDriver[0]?.fname}-${activeDriver[0]?.lname}`}
+            races={activeDriver}
+          />
           <Panel
             title="Race history"
             subtitle="Finishing positions and points by Grand Prix."
