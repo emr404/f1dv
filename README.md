@@ -63,9 +63,7 @@ static host can serve them without special fallback configuration.
 
 ## Maintenance
 
-The app uses React 19, Vite, React Router 7, Chart.js 4, and Sass. npm is the package
+The app uses React 19, Vite, React Router 7, Chart.js 4 and Sass. npm is the package
 manager; commit `package-lock.json` when updating dependencies.
 
 F1 data now comes from [Jolpica's Ergast-compatible API](https://github.com/jolpica/jolpica-f1),
-
-

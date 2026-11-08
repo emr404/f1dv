@@ -2,8 +2,8 @@ export function Icon({ name, size = 20, ...props }) {
   const paths = {
     results: (
       <>
-        <path d="M4 4h16v16H4zM4 9h16M9 9v11" />
-        <path d="m12 14 2 2 3-4" />
+        <path d="M7 3h10v5a5 5 0 0 1-10 0V3Z" />
+        <path d="M7 5H4v3a4 4 0 0 0 4 4m9-7h3v3a4 4 0 0 1-4 4m-4 1v5m-4 3h8m-8 0v-1a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1" />
       </>
     ),
     standings: (
@@ -55,6 +55,44 @@ export function PageHeader({ title, description }) {
       <h1>{title}</h1>
       {description && <p>{description}</p>}
     </header>
+  );
+}
+
+export function ReportCard({
+  label,
+  context,
+  title,
+  subtitle,
+  tags = [],
+  className = "",
+  titleClassName,
+}) {
+  return (
+    <section className={`race-hero ${className}`.trim()}>
+      <div className="hero-content">
+        <span className="eyebrow">
+          {label}
+          {context && (
+            <>
+              <span className="hero-separator">/</span>
+              {context}
+            </>
+          )}
+        </span>
+        <h2 className={titleClassName}>{title}</h2>
+        {subtitle && <p>{subtitle}</p>}
+        {tags.length > 0 && (
+          <div className="hero-tags">
+            {tags.map((tag) => (
+              <span key={tag.label}>
+                {tag.icon && <Icon name={tag.icon} size={14} />}
+                {tag.label}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
   );
 }
 

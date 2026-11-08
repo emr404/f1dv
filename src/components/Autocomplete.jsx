@@ -1,15 +1,21 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 // The previous react-autocomplete package uses APIs removed in React 19.
-export default function Autocomplete({ suggestions = [], value, onChange }) {
-  const input = useRef(null);
+export default function Autocomplete({
+  suggestions = [],
+  value,
+  onChange,
+  onSelect,
+}) {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
   const matches = suggestions.filter((item) =>
-    item.toLowerCase().includes(value.toLowerCase()),
+    `${item.label} ${item.id}`
+      .toLowerCase()
+      .includes(value.trim().toLowerCase()),
   );
   const select = (item) => {
-    onChange(item);
+    onSelect(item);
     setOpen(false);
     setActive(0);
   };
@@ -18,7 +24,7 @@ export default function Autocomplete({ suggestions = [], value, onChange }) {
     <div className="autocomplete">
       <input
         id="driver-name"
-        ref={input}
+        aria-labelledby="driver-name-label"
         role="combobox"
         aria-expanded={open}
         aria-controls="driver-suggestions"
@@ -26,7 +32,7 @@ export default function Autocomplete({ suggestions = [], value, onChange }) {
         aria-activedescendant={
           open && matches[active] ? `driver-option-${active}` : undefined
         }
-        placeholder="e.g. hamilton"
+        placeholder="Search driver…"
         autoComplete="off"
         value={value}
         onChange={(event) => {
@@ -65,14 +71,14 @@ export default function Autocomplete({ suggestions = [], value, onChange }) {
         >
           {matches.map((item, index) => (
             <div
-              key={item}
+              key={item.id}
               id={`driver-option-${index}`}
               role="option"
               aria-selected={index === active}
               onMouseDown={(event) => event.preventDefault()}
               onClick={() => select(item)}
             >
-              {item}
+              {item.label}
             </div>
           ))}
         </div>

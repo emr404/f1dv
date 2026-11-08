@@ -58,7 +58,12 @@ const Standings = () => {
         <Loader />
       ) : (
         <>
-          <div className="podium-grid">
+          <div
+            className="podium-grid"
+            role="region"
+            aria-label="Top three drivers"
+            tabIndex={0}
+          >
             {raceEvent.slice(0, 3).map((driver, index) => (
               <div
                 key={driver.position}
@@ -110,7 +115,12 @@ const Standings = () => {
               <span className="count-badge">{raceEvent.length} DRIVERS</span>
             }
           >
-            <div className="table-scroll">
+            <div
+              className="table-scroll"
+              role="region"
+              aria-label="Driver standings"
+              tabIndex={0}
+            >
               <table>
                 <thead>
                   <tr>

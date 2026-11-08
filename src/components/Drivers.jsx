@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Bar, pointsChart } from "../charts";
-import { useF1Data, useSeasons } from "../api";
+import { useF1Data } from "../api";
 import {
   PageHeader,
+  ReportCard,
   Panel,
   Stat,
   Position,
@@ -13,15 +14,39 @@ import Autocomplete from "./Autocomplete";
 import Loader from "./Loader";
 
 const Drivers = () => {
-  const [state, setState] = useState("");
+  const [search, setSearch] = useState("");
+  const [selectedDriver, setSelectedDriver] = useState(null);
   const [year, setYear] = useState(() => new Date().getFullYear());
   const [query, setQuery] = useState(null);
-  const { seasons, error: seasonsError } = useSeasons();
   const { data: driverData, error: driversError } = useF1Data(
     "drivers.json?limit=100&offset=0",
   );
-  const drivers =
-    driverData?.DriverTable.Drivers.map((driver) => driver.driverId) ?? [];
+  const drivers = (driverData?.DriverTable.Drivers ?? [])
+    .map((driver) => ({
+      id: driver.driverId,
+      label: `${driver.givenName} ${driver.familyName}`,
+    }))
+    .sort((a, b) => a.label.localeCompare(b.label));
+  const { data: seasonsData, error: seasonsError } = useF1Data(
+    selectedDriver
+      ? `drivers/${encodeURIComponent(selectedDriver.id)}/seasons.json?limit=100`
+      : null,
+  );
+  const seasons = (seasonsData?.SeasonTable.Seasons ?? [])
+    .map(({ season }) => season)
+    .sort((a, b) => Number(b) - Number(a));
+  const selectedYear = seasons.includes(String(year))
+    ? String(year)
+    : (seasons[0] ?? "");
+  const handleSearch = (value) => {
+    setSearch(value);
+    setSelectedDriver(null);
+  };
+  const handleSelect = (driver) => {
+    setSearch(driver.label);
+    setSelectedDriver(driver);
+    setYear(new Date().getFullYear());
+  };
   const { data, error } = useF1Data(query, { keepPreviousData: true });
   const activeDriver = (data?.RaceTable.Races ?? []).flatMap((race) =>
     race.Results.map((result) => ({
@@ -32,15 +57,16 @@ const Drivers = () => {
       car: result.Constructor.name,
       fname: result.Driver.givenName,
       lname: result.Driver.familyName,
+      nationality: result.Driver.nationality,
     })),
   );
   const handleChange = (event) =>
     setYear(event.target.value || new Date().getFullYear());
   const handleClick = (event) => {
     event.preventDefault();
-    if (state.trim())
+    if (selectedDriver && selectedYear)
       setQuery(
-        `${year}/drivers/${encodeURIComponent(state.trim())}/results.json?limit=100`,
+        `${selectedYear}/drivers/${encodeURIComponent(selectedDriver.id)}/results.json?limit=100`,
       );
   };
   const chartData = pointsChart(
@@ -62,16 +88,31 @@ const Drivers = () => {
           <span>Driver explorer</span>
         </div>
         <label htmlFor="driver-name">
-          Last Name:
+          <span id="driver-name-label">Driver:</span>
           <Autocomplete
             suggestions={drivers}
-            value={state}
-            onChange={setState}
+            value={search}
+            onChange={handleSearch}
+            onSelect={handleSelect}
           />
         </label>
         <label htmlFor="driver-year">
           Select Year
-          <select id="driver-year" value={year} onChange={handleChange}>
+          <select
+            id="driver-year"
+            value={selectedYear}
+            onChange={handleChange}
+            disabled={!seasons.length}
+          >
+            {!seasons.length && (
+              <option value="">
+                {!selectedDriver
+                  ? "Choose a driver first"
+                  : seasonsData
+                    ? "No seasons available"
+                    : "Loading seasons…"}
+              </option>
+            )}
             {seasons.map((season) => (
               <option key={season} value={season}>
                 {season}
@@ -82,7 +123,7 @@ const Drivers = () => {
         <button
           className="primary-button"
           type="submit"
-          disabled={!state.trim()}
+          disabled={!selectedDriver || !selectedYear}
         >
           GO <Icon name="arrow" size={17} />
         </button>
@@ -95,28 +136,34 @@ const Drivers = () => {
         <Loader />
       ) : !query ? (
         <EmptyState title="Meet the person behind the points">
-          Search for a driver, choose a season, and click GO to explore their
+          Search for a driver, choose a season and click GO to explore their
           race by race performance.
         </EmptyState>
       ) : (
         <>
           {activeDriver.slice(0, 1).map((driver) => (
-            <section className="driver-profile" key={driver.season}>
-              <div className="driver-avatar" aria-hidden="true">
-                {driver.fname[0]}
-                {driver.lname[0]}
-              </div>
-              <div>
-                <span className="eyebrow">
-                  DRIVER PROFILE / {driver.season}
-                </span>
-                <h2>
-                  Driver: {driver.fname} {driver.lname}
-                </h2>
-                <p>{driver.car}</p>
-              </div>
-              <span className="profile-season">{driver.season}</span>
-            </section>
+            <ReportCard
+              key={driver.season}
+              className="driver-profile"
+              label="DRIVER PROFILE"
+              context={driver.season}
+              title={`${driver.fname} ${driver.lname}`}
+              subtitle={
+                <>
+                  {driver.car}
+                  {driver.nationality && (
+                    <>
+                      <span>•</span>
+                      {driver.nationality}
+                    </>
+                  )}
+                </>
+              }
+              tags={[
+                { icon: "flag", label: `Races: ${activeDriver.length}` },
+                { label: `Season: ${driver.season}` },
+              ]}
+            />
           ))}
           <div className="stats-strip">
             <Stat
@@ -164,7 +211,12 @@ const Drivers = () => {
             title="Race history"
             subtitle="Finishing positions and points by Grand Prix."
           >
-            <div className="table-scroll">
+            <div
+              className="table-scroll"
+              role="region"
+              aria-label="Race history"
+              tabIndex={0}
+            >
               <table>
                 <thead>
                   <tr>

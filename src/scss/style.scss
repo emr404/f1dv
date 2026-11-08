@@ -372,8 +372,20 @@ $line: #ebebeb;
   white-space: nowrap;
 }
 .table-scroll {
-  overflow-x: auto;
   width: 100%;
+  height: 440px;
+  max-height: 65svh;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: #c7c7ce transparent;
+  thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    box-shadow: 0 1px 0 $line;
+  }
 }
 table {
   width: 100%;
@@ -577,7 +589,6 @@ tr.bronze td:first-child {
     }
   }
   .podium-footer {
-    border-color: #00000015;
     color: #333333c9;
     strong {
       color: #242424;
@@ -592,7 +603,6 @@ tr.bronze td:first-child {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-top: 1px solid $line;
   padding-top: 17px;
   color: #888;
   font-size: 11px;
@@ -629,65 +639,17 @@ tr.bronze td:first-child {
   gap: 18px;
 }
 .schedule-card {
-  padding: 24px;
-  border: 1px solid $line;
-  border-top: 3px solid #18181c;
-  background: #fff;
-  border-radius: 8px;
-  transition: border-color 0.15s;
-  &:hover {
-    border-top-color: #e82727;
-  }
-  h2 {
-    font-size: 17px;
-    font-weight: 550;
-    line-height: 1.4;
-    letter-spacing: -0.3px;
-    margin: 24px 0 10px;
-  }
-  > p {
-    font-size: 11px;
-    line-height: 1.6;
-    color: #888;
-    min-height: 35px;
-  }
-}
-.schedule-card-top {
+  min-width: 0;
+  margin-bottom: 0;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: #999;
-}
-.schedule-date {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 24px;
-  > strong {
-    font-size: 45px;
-    line-height: 1;
-    font-weight: 500;
-    letter-spacing: -2px;
+  .hero-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
   }
-  > span {
-    font-size: 11px;
-    line-height: 1.7;
-    color: #888;
-  }
-}
-.schedule-card-footer {
-  border-top: 1px solid $line;
-  padding-top: 17px;
-  margin-top: 18px;
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  font-size: 9px;
-  line-height: 1.6;
-  color: #888;
-  > span:last-child {
-    color: #666;
-    white-space: nowrap;
+  .hero-tags {
+    margin-top: auto;
+    padding-top: 20px;
   }
 }
 .empty-state {
@@ -718,48 +680,7 @@ tr.bronze td:first-child {
     color: #888;
   }
 }
-.driver-profile {
-  background: #18181c;
-  color: white;
-  border: 1px solid #18181c;
-  border-top: 3px solid #e82727;
-  padding: 26px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  h2 {
-    font-size: 23px;
-    font-weight: 550;
-    letter-spacing: -0.6px;
-    margin: 9px 0;
-  }
-  p {
-    color: #aaaab5;
-    font-size: 12px;
-  }
-}
-.driver-avatar {
-  width: 68px;
-  height: 68px;
-  background: #fcecec;
-  color: $red;
-  border: 1px solid #f4d9d9;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-size: 24px;
-  font-weight: 500;
-  flex-shrink: 0;
-}
-.profile-season {
-  margin-left: auto;
-  font-size: 36px;
-  font-weight: 500;
-  color: #d0d0d0;
-  letter-spacing: -1.2px;
-}
+
 .DriverContainer .stats-strip {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
@@ -859,6 +780,22 @@ tr.bronze td:first-child {
   }
 }
 @media (max-width: 800px) {
+  .podium-grid {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: min(84%, 340px);
+    gap: 12px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 8px;
+    scrollbar-width: thin;
+    scrollbar-color: #c7c7ce transparent;
+  }
+  .podium-card {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
   .sidebar {
     position: sticky;
     top: 0;
@@ -942,6 +879,9 @@ tr.bronze td:first-child {
   }
 }
 @media (max-width: 520px) {
+  .table-scroll {
+    height: 360px;
+  }
   .main-content {
     padding: 12px 16px 30px;
   }
@@ -1022,10 +962,6 @@ tr.bronze td:first-child {
   .DriverContainer table {
     min-width: 380px;
   }
-  .podium-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
   .podium-card {
     padding: 24px;
     h2 {
@@ -1048,28 +984,7 @@ tr.bronze td:first-child {
       font-size: 9px;
     }
   }
-  .schedule-card h2 {
-    font-size: 20px;
-  }
-  .driver-profile {
-    padding: 22px 18px;
-    gap: 14px;
-    h2 {
-      font-size: 20px;
-      line-height: 1.4;
-    }
-    .eyebrow {
-      font-size: 8px;
-    }
-  }
-  .driver-avatar {
-    width: 48px;
-    height: 48px;
-    font-size: 19px;
-  }
-  .profile-season {
-    display: none;
-  }
+
   .DriverContainer .stats-strip {
     grid-template-columns: 1fr;
     .stat {

@@ -4,6 +4,7 @@ import { useF1Data, useSeasons } from "../api";
 import Loader from "./Loader";
 import {
   PageHeader,
+  ReportCard,
   Panel,
   Stat,
   Position,
@@ -15,8 +16,9 @@ const Result = () => {
   const [year, setYear] = useState(() => new Date().getFullYear());
   const [round, setRound] = useState("last");
   const { seasons: seasonList, error: seasonsError } = useSeasons();
-  const { data: calendar, error: calendarError } = useF1Data(
-    `${year}.json?limit=100`,
+  // One winner per race lists published rounds without downloading every driver result.
+  const { data: publishedRounds, error: roundsError } = useF1Data(
+    `${year}/results/1.json?limit=100`,
   );
   const now = new Date();
   const today = [
@@ -24,22 +26,22 @@ const Result = () => {
     String(now.getMonth() + 1).padStart(2, "0"),
     String(now.getDate()).padStart(2, "0"),
   ].join("-");
-  const rounds = (calendar?.RaceTable.Races ?? [])
-    .filter((race) => race.date <= today)
+  const rounds = (publishedRounds?.RaceTable.Races ?? [])
+    .filter((race) => race.Results?.length && race.date <= today)
     .sort(
       (a, b) =>
         a.date.localeCompare(b.date) || Number(a.round) - Number(b.round),
     );
   const selectedRound = round === "last" ? (rounds.at(-1)?.round ?? "") : round;
-  const roundsReady = Boolean(calendar && rounds.length);
+  const roundsReady = Boolean(publishedRounds && rounds.length);
   const [query, setQuery] = useState(null);
   const [initialLoadPending, setInitialLoadPending] = useState(true);
 
   useEffect(() => {
-    if (!initialLoadPending || !calendar) return;
+    if (!initialLoadPending || !publishedRounds) return;
     setInitialLoadPending(false);
     if (roundsReady && selectedRound) setQuery(`${year}/${selectedRound}`);
-  }, [initialLoadPending, calendar, roundsReady, selectedRound, year]);
+  }, [initialLoadPending, publishedRounds, roundsReady, selectedRound, year]);
   const applyQuery = (event) => {
     event.preventDefault();
     setInitialLoadPending(false);
@@ -81,11 +83,11 @@ const Result = () => {
   return (
     <div
       className="ResultContainer"
-      aria-busy={isFetching || (initialLoadPending && !calendarError)}
+      aria-busy={isFetching || (initialLoadPending && !roundsError)}
     >
       <PageHeader
         title="Race results"
-        description="Race classifications and championship points."
+        description="Race results and championship points."
       />
       <form className="filter-bar ResultSearch" onSubmit={applyQuery}>
         <div className="filter-intro">
@@ -112,7 +114,7 @@ const Result = () => {
           >
             {!roundsReady && (
               <option value="">
-                {calendar ? "No rounds available" : "Loading rounds…"}
+                {publishedRounds ? "No published results" : "Loading rounds…"}
               </option>
             )}
             {rounds.map((race) => (
@@ -135,15 +137,17 @@ const Result = () => {
           Updating results…
         </p>
       )}
-      {error || seasonsError || calendarError ? (
+      {error || seasonsError || roundsError ? (
         <p role="alert" className="error-message">
-          {error || seasonsError || calendarError}
+          {error || seasonsError || roundsError}
         </p>
       ) : initialLoadPending ? (
         <Loader />
       ) : !query ? (
-        <EmptyState title="Choose a race">
-          Select a season and round, then click GO to see the results.
+        <EmptyState title={rounds.length ? "Choose a race" : "No results yet"}>
+          {rounds.length
+            ? "Select a season and round, then click GO to see the results."
+            : "No race results have been published for this season. Choose an earlier season."}
         </EmptyState>
       ) : !data ? (
         <Loader />
@@ -154,30 +158,28 @@ const Result = () => {
         </div>
       ) : (
         <>
-          <section className="race-hero">
-            <div className="hero-content">
-              <span className="eyebrow">
-                RACE REPORT <span className="hero-separator">/</span>{" "}
-                {race.season}
-              </span>
-              <h2 className="RaceName">{race.raceName}</h2>
-              <p>
-                {race.Circuit?.circuitName} <span>•</span>{" "}
+          <ReportCard
+            label="RACE REPORT"
+            context={race.season}
+            title={race.raceName}
+            titleClassName="RaceName"
+            subtitle={
+              <>
+                {race.Circuit?.circuitName}
+                <span>•</span>
                 {race.Circuit?.Location.country}
-              </p>
-              <div className="hero-tags">
-                <span>
-                  <Icon name="flag" size={14} /> Round: {race.round}
-                </span>
-                <span>
-                  {new Date(`${race.date}T12:00:00Z`).toLocaleDateString(
-                    "en-GB",
-                    { day: "2-digit", month: "long", year: "numeric" },
-                  )}
-                </span>
-              </div>
-            </div>
-          </section>
+              </>
+            }
+            tags={[
+              { icon: "flag", label: `Round: ${race.round}` },
+              {
+                label: new Date(`${race.date}T12:00:00Z`).toLocaleDateString(
+                  "en-GB",
+                  { day: "2-digit", month: "long", year: "numeric" },
+                ),
+              },
+            ]}
+          />
           <div className="stats-strip">
             <Stat
               label="RACE WINNER"
@@ -219,14 +221,19 @@ const Result = () => {
             </div>
           </Panel>
           <Panel
-            title="Race classification"
+            title="Race results"
             subtitle="The complete finishing order"
             aside={
               <span className="count-badge">{results.length} DRIVERS</span>
             }
             className="classification-panel"
           >
-            <div className="table-scroll">
+            <div
+              className="table-scroll"
+              role="region"
+              aria-label="Race results"
+              tabIndex={0}
+            >
               <table>
                 <thead>
                   <tr>
