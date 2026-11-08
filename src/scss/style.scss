@@ -992,17 +992,41 @@ tr.bronze td:first-child {
     }
   }
 }
+.podium-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: repeating-conic-gradient(
+      rgba(24, 24, 28, 0.14) 0% 25%,
+      rgba(255, 255, 255, 0.12) 0% 50%
+    )
+    0 0 / 40px 40px;
+  mask-image: linear-gradient(
+    to left,
+    #000,
+    rgba(0, 0, 0, 0.7) 45%,
+    transparent 95%
+  );
+  -webkit-mask-image: linear-gradient(
+    to left,
+    #000,
+    rgba(0, 0, 0, 0.7) 45%,
+    transparent 95%
+  );
+  pointer-events: none;
+}
 .podium-watermark {
   position: absolute;
   z-index: 0;
   right: 18px;
-  top: -24px;
-  color: var(--medal);
-  opacity: 0.15;
-  font-family: "Times New Roman", Times, serif;
-  font-size: 240px;
-  font-style: italic;
-  font-weight: 700;
+  top: 4px;
+  color: var(--rank-color);
+  font-family: inherit;
+  font-size: 200px;
+  font-style: normal;
+  transform: skewX(-10deg);
+  font-weight: 400;
   line-height: 1;
   letter-spacing: 0;
   pointer-events: none;
@@ -1017,33 +1041,42 @@ tr.bronze td:first-child {
   background: linear-gradient(135deg, #ead19a, #d2ad56);
   border-color: #c5a047;
   --medal: #694c0e;
+  --rank-color: #b99a55;
+  --text-halo: #ead19a;
 }
 .podium-card.podium-1 {
   background: linear-gradient(135deg, #e4e8ed, #bdc5cf);
   border-color: #aeb7c3;
   --medal: #475361;
+  --rank-color: #a1abb8;
+  --text-halo: #e4e8ed;
 }
 .podium-card.podium-2 {
   background: linear-gradient(135deg, #e1bda3, #ba865f);
   border-color: #ad7850;
   --medal: #633d22;
+  --rank-color: #ab7958;
+  --text-halo: #e1bda3;
 }
 .podium-card {
+  > :not(.podium-watermark) {
+    text-shadow: 0 1px 1px var(--text-halo), 0 0 5px var(--text-halo);
+  }
   .eyebrow {
-    color: #333333b3;
+    color: #292929;
   }
   h2 {
-    color: #333333b3;
+    color: #292929;
     strong {
-      color: #242424;
+      color: #111;
     }
   }
   .podium-footer {
-    color: #333333c9;
+    color: #292929;
     strong {
-      color: #242424;
+      color: #111;
       small {
-        color: #333333b3;
+        color: #292929;
       }
     }
   }
